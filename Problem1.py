@@ -79,7 +79,7 @@ print(sol.isPalindrome(head))
 
 
 # Method-2: Using reversing second half of linked list and checking palindrome
-# Time Complexity : O(N)
+# Time Complexity : O(N) = O(N/2) -- to find the middle +  O(N/2) -- reverse the linked list + O(N/2) -- Check if palindrome + O(N/2) -- get back the original Linked List
 # Space Complexity : O(1)
 # Did this code successfully run on GFG : Yes
 # Any problem you faced while coding this : No
@@ -128,17 +128,36 @@ class Solution(object):
         slow = prev
         fast = head
 
+        # to get back the linked list
+        temp = prev
+
         # for even case fast will reach null
         # for odd case slow == fast
+        res = True
         while(fast and slow != fast):
             if(fast.val != slow.val):
-                return False
+                res = False
+                break
 
             fast = fast.next
             slow = slow.next
 
-        return True
+        # get back the original list
+        prev = None
+        while(temp):
+            temp1 = temp.next
+            temp.next = prev
+            prev = temp
+            temp = temp1
 
+        return res
+
+def printLinkedList(root):
+    curr = root
+    while(curr):
+        print(curr.val, end=" -> ")
+        curr = curr.next
+    print()
 print("Method2: Using reversing second half of linked list and checking palindrome")
 node1 = ListNode(1)
 node2 = ListNode(2)
@@ -150,8 +169,11 @@ node2.next = node22
 node22.next = node11
 
 sol = Solution()
-
+print("Print Linked List before")
+printLinkedList(head)
 print(sol.isPalindrome(head))
+print("Print Linked List after")
+printLinkedList(head)
 
 node1 = ListNode(1)
 node2 = ListNode(2)
@@ -164,11 +186,19 @@ node2.next = node3
 node3.next = node22
 node22.next = node11
 
+print("Print Linked List before")
+printLinkedList(head)
 print(sol.isPalindrome(head))
+print("Print Linked List after")
+printLinkedList(head)
 
 node5 = ListNode(5)
 node6 = ListNode(6)
 node5.next = node6
 head = node5
 
+print("Print Linked List before")
+printLinkedList(head)
 print(sol.isPalindrome(head))
+print("Print Linked List after")
+printLinkedList(head)
